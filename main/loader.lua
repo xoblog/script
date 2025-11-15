@@ -3,11 +3,11 @@ getgenv().MultiLoader = true
 local GameConfigs = {
     [121864768012064] = { 
         name = "Fish It",
-        script = "https://raw.githubusercontent.com/xoblog/best/refs/heads/main/fishit_xoblog.lua"
+        script = "https://raw.githubusercontent.com/xoblog/script/refs/heads/main/main/fish_it.lua"
     },
     [126884695634066] = {
         name = "Grow A Garden",
-        script = "https://raw.githubusercontent.com/xoblog/best/refs/heads/main/grow_a_garden_xoblog.lua"
+        script = "https://raw.githubusercontent.com/xoblog/script/refs/heads/main/main/grow_a_garden.lua"
     }
 }
 
