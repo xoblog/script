@@ -1,7 +1,7 @@
 getgenv().MultiLoader = true
 
 local GameConfigs = {
-    [121864768012064] = { 
+    [121864768012064] = {
         name = "Fish It",
         script = "https://raw.githubusercontent.com/xoblog/script/refs/heads/main/main/fish-it.lua"
     },
@@ -19,11 +19,11 @@ print("Starting MultiLoader...")
 if currentGame then
     print("Detected game: " .. currentGame.name)
     print("Loading: " .. currentGame.name)
-    
+
     local success, content = pcall(function()
         return game:HttpGet(currentGame.script)
     end)
-    
+
     if success and content and content ~= "" then
         local loadSuccess, err = pcall(loadstring(content))
         if loadSuccess then
