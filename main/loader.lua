@@ -6,7 +6,7 @@ local GameConfigs = {
         script = "https://raw.githubusercontent.com/xoblog/script/refs/heads/main/main/fish_it.lua"
     },
     [126884695634066] = {
-        name = "Grow A Garden",
+        name = "Grow A Garden", 
         script = "https://raw.githubusercontent.com/xoblog/script/refs/heads/main/main/grow_a_garden.lua"
     }
 }
@@ -20,37 +20,61 @@ local function safeHttpGet(url)
     local success, result = pcall(function()
         return game:HttpGet(url, true)
     end)
-    return success and result or nil
+    if success then
+        print("✅ Successfully fetched: " .. url)
+        return result
+    else
+        warn("❌ Failed to fetch: " .. url)
+        return nil
+    end
 end
 
 local function loadScript(scriptUrl, scriptName)
-    if cache.loaded then return false end
+    if cache.loaded then 
+        print("⚠️ Script already loaded, skipping...")
+        return false 
+    end
 
+    print("📥 Loading: " .. scriptName)
     local content = safeHttpGet(scriptUrl)
-    if not content then return false end
+    if not content then 
+        warn("❌ No content received for: " .. scriptName)
+        return false 
+    end
 
     local success, err = pcall(loadstring(content))
     if success then
+        print("✅ Successfully loaded: " .. scriptName)
         cache.loaded = true
         return true
     else
+        warn("❌ Failed to load script " .. scriptName .. ": " .. tostring(err))
         return false
     end
 end
 
 local function executeLoader()
     local currentGame = GameConfigs[cache.placeId]
-    local loadSuccess = false
-
-    if currentGame then
-        loadSuccess = loadScript(currentGame.script, currentGame.name)
+    
+    if not currentGame then
+        print("❌ No script configured for PlaceId: " .. cache.placeId)
+        return false
     end
 
-    return loadSuccess
+    print("🎮 Detected game: " .. currentGame.name)
+    return loadScript(currentGame.script, currentGame.name)
 end
 
+-- Main execution
 if not cache.loaded then
+    print("🚀 Starting MultiLoader...")
     local success, err = pcall(executeLoader)
-    if not success then
+    
+    if success then
+        print("🎉 MultiLoader execution completed")
+    else
+        warn("💥 MultiLoader error: " .. tostring(err))
     end
+else
+    print("✅ MultiLoader already executed")
 end
